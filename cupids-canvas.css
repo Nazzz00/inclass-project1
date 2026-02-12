@@ -1,11 +1,15 @@
-/* Valentine's Day Color Palette & Variables */
+/* ============================================================
+   CUPID'S CANVAS: THEME VARIABLES
+   ============================================================ */
 :root {
   --cupid-pink: #ffafcc;
   --valentine-red: #ff4d6d;
   --love-purple: #c77dff;
   --chocolate: #7b3f00;
   --vanilla: #fffaf0;
-  
+  --sky-blue: #a2d2ff;
+  --grass-green: #9ed081;
+
   /* Spacing Variables */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -13,7 +17,9 @@
   --space-4: 2rem;
 }
 
-/* Reduced Motion Preferences */
+/* ============================================================
+   ACCESSIBILITY & DEFAULTS
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -22,22 +28,263 @@
   }
 }
 
-/* CSS-only page navigation with :target */
-.page {
-  display: none;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--vanilla);
+  color: var(--chocolate);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, .logo {
+  font-family: 'Dancing Script', cursive;
+  color: var(--valentine-red);
+}
+
+/* ============================================================
+   STORYBOOK NAVIGATION (:target logic)
+   ============================================================ */
+.page {
+  display: none; /* Hide all pages by default */
+  min-height: 100vh;
+  padding: var(--space-4);
+  animation: fadeInPage 0.8s ease-out;
+}
+
+/* Show the first page (Beginning) by default OR when targeted */
+#beginning,
 .page:target {
   display: block;
 }
 
-/* Heart animation example */
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+/* If any other page is targeted, hide the default first page */
+:target ~ #beginning:not(:target) {
+  display: none;
 }
 
-.heart {
-  animation: heartbeat 1.5s ease-in-out infinite;
+/* ============================================================
+   HEADER & GLOBAL UI
+   ============================================================ */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 250, 240, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--cupid-pink);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: var(--space-3);
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--love-purple);
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  padding: var(--space-1) var(--space-2);
+}
+
+.nav-links a:hover {
+  color: var(--valentine-red);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   PAGE 1: SPLASH SCREEN (ANIMATED ENVIRONMENT)
+   ============================================================ */
+.splash-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(to bottom, var(--sky-blue), var(--vanilla));
+  overflow: hidden;
+  border-radius: 20px;
+  margin: var(--space-4) 0;
+  border: 4px solid white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: var(--grass-green);
+  z-index: 1;
+}
+
+/* Environmental Loops */
+.moving-element {
+  position: absolute;
+  animation: scrollLeft linear infinite;
+}
+
+.tree { bottom: 80px; font-size: 3rem; animation-duration: 12s; }
+.cloud { top: 15%; background: white; width: 80px; height: 30px; border-radius: 20px; opacity: 0.8; animation-duration: 22s; }
+
+/* The Carriage Scene */
+.main-scene {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  z-index: 5;
+  animation: carriageBounce 0.8s ease-in-out infinite;
+}
+
+.carriage { font-size: 5rem; position: relative; }
+.horse { font-size: 4rem; transform: scaleX(-1); margin-left: -10px; }
+.couple {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 1.8rem;
+  animation: wave 2s ease-in-out infinite;
+}
+
+.trail-heart {
+  position: absolute;
+  color: var(--valentine-red);
+  font-size: 1.5rem;
+  opacity: 0;
+  animation: heartPop 2s linear infinite;
+}
+
+/* ============================================================
+   PAGE 2: CUPID'S GARDEN (GRID & INTERACTION)
+   ============================================================ */
+.garden-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+.card {
+  background: white;
+  padding: var(--space-4);
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid var(--cupid-pink);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+  transform: translateY(-15px) scale(1.02);
+  border-color: var(--valentine-red);
+  box-shadow: 0 15px 30px rgba(255, 77, 109, 0.2);
+}
+
+.card-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+/* ============================================================
+   PAGE 3: ETERNAL ROMANCE
+   ============================================================ */
+.eternal-content {
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.rings-container {
+  font-size: 5rem;
+  margin-bottom: var(--space-4);
+}
+
+.ring {
+  display: inline-block;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+.ring:last-child {
+  margin-left: -30px;
+  animation-delay: 0.5s;
+}
+
+.romantic-statement {
+  font-style: italic;
+  font-size: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--love-purple);
+}
+
+/* ============================================================
+   BUTTONS & FOOTER
+   ============================================================ */
+.btn-primary, .btn-secondary {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin: var(--space-2);
+}
+
+.btn-primary { background: var(--valentine-red); color: white; }
+.btn-secondary { background: var(--love-purple); color: white; }
+
+.btn-primary:hover { background: var(--chocolate); transform: scale(1.1); }
+
+.main-footer {
+  text-align: center;
+  padding: var(--space-4);
+  background: var(--chocolate);
+  color: var(--vanilla);
+  margin-top: var(--space-4);
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes scrollLeft {
+  from { left: 110%; }
+  to { left: -20%; }
+}
+
+@keyframes carriageBounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -10px); }
+}
+
+@keyframes heartPop {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-100px, -60px) scale(1.5); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(15deg); }
+}
+
+@keyframes fadeInPage {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
 }
